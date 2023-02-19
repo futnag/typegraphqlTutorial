@@ -1,3 +1,4 @@
+import { ConfirmUserResolver } from "./modules/user/ConfirmUser";
 import { LoginResolver } from "./modules/user/Login";
 import { RegisterResolver } from "./modules/user/Register";
 import { MeResolver } from "./modules/user/Me";
@@ -14,7 +15,7 @@ const main = async () => {
   await AppDataSource.initialize();
 
   const schema = await buildSchema({
-    resolvers: [MeResolver, RegisterResolver, LoginResolver],
+    resolvers: [MeResolver, RegisterResolver, LoginResolver, ConfirmUserResolver],
     // authChecker: ({ context: { req } }) => {
     //   return !!req.session.userId;
     // },

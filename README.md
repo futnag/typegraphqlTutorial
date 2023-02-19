@@ -22,4 +22,7 @@ redis-cli -v
 yarn add express-session connect-redis ioredis cors
 yarn add -D @types/express-session  @types/connect-redis @types/ioredis @types/cors
 
+
+yarn add nodemailer uuid
+yarn add -D @types/nodemailer @types/uuid
 ```
