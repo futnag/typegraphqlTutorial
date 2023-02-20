@@ -17,7 +17,7 @@ const main = async () => {
     // },
   });
 
-  const apolloServer = new ApolloServer({ schema, context: ({ req }: any) => ({ req }) });
+  const apolloServer = new ApolloServer({ schema, context: ({ req, res }: any) => ({ req, res }) });
   await apolloServer.start();
   const app = Express();
   const RedisStore = connectRedis(session);
