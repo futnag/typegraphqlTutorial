@@ -1,3 +1,4 @@
+import { confirmUserPrefix } from "../constants/redisPrefixes";
 import { Arg, Mutation, Resolver } from "type-graphql";
 import { User } from "../../entity/User";
 import { redis } from "../../redis";
@@ -12,14 +13,12 @@ declare module "express-session" {
 export class ConfirmUserResolver {
   @Mutation(() => Boolean)
   async confirmUser(@Arg("token") token: string): Promise<boolean> {
-    console.log("[log] token : ", token);
-    const userId = await redis.get(token);
-    console.log("[log] userId : ", userId);
+    const userId = await redis.get(confirmUserPrefix + token);
     if (!userId) {
       return false;
     }
     await User.update({ id: parseInt(userId, 10) }, { confirmed: true });
-    redis.del(token);
+    redis.del(confirmUserPrefix + token);
     return true;
   }
 }
