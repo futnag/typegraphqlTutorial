@@ -1,3 +1,4 @@
+import queryComplexity, { simpleEstimator } from "graphql-query-complexity";
 import { ApolloServer } from "apollo-server-express";
 import { AppDataSource } from "./data-source";
 import Express from "express";
@@ -12,7 +13,24 @@ const main = async () => {
 
   const schema = await createSchema();
 
-  const apolloServer = new ApolloServer({ schema, context: ({ req, res }: any) => ({ req, res }) });
+  const apolloServer = new ApolloServer({
+    schema,
+    context: ({ req, res }: any) => ({ req, res }),
+    validationRules: [
+      queryComplexity({
+        maximumComplexity: 8,
+        variables: {},
+        onComplete: (complexity: number) => {
+          console.log("Query Complexity:", complexity);
+        },
+        estimators: [
+          simpleEstimator({
+            defaultComplexity: 1,
+          }),
+        ],
+      }),
+    ],
+  });
   await apolloServer.start();
   const app = Express();
   const RedisStore = connectRedis(session);

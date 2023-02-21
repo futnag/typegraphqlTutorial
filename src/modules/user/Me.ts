@@ -10,7 +10,7 @@ declare module "express-session" {
 
 @Resolver()
 export class MeResolver {
-  @Query(() => User, { nullable: true })
+  @Query(() => User, { nullable: true, complexity: 10 })
   async me(@Ctx() ctx: MyContext): Promise<User | null> {
     if (!ctx.req.session!.userId) {
       return null;
