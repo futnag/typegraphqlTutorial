@@ -1,5 +1,6 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
+import { Product } from "./entity/Product";
 import { User } from "./entity/User";
 
 export const AppDataSource = new DataSource({
@@ -11,7 +12,7 @@ export const AppDataSource = new DataSource({
   database: "typegraphqlexample",
   synchronize: true,
   logging: true,
-  entities: [User],
+  entities: [User, Product],
   migrations: [],
   subscribers: [],
 });
