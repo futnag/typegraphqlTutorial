@@ -1,21 +1,16 @@
 import { ApolloServer } from "apollo-server-express";
-import { buildSchema } from "type-graphql";
 import { AppDataSource } from "./data-source";
 import Express from "express";
 import session from "express-session";
 import connectRedis from "connect-redis";
 import { redis } from "./redis";
 import cors from "cors";
+import { createSchema } from "./utils/createSchema";
 
 const main = async () => {
   await AppDataSource.initialize();
 
-  const schema = await buildSchema({
-    resolvers: [__dirname + "/modules/**/*.ts"],
-    // authChecker: ({ context: { req } }) => {
-    //   return !!req.session.userId;
-    // },
-  });
+  const schema = await createSchema();
 
   const apolloServer = new ApolloServer({ schema, context: ({ req, res }: any) => ({ req, res }) });
   await apolloServer.start();
